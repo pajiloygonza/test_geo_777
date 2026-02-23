@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffd36a"/>
+      <stop offset="100%" stop-color="#ff7b2e"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="360" rx="32" fill="#0b2a5a"/>
+  <g transform="translate(90 80)">
+    <rect width="460" height="200" rx="28" fill="#fff"/>
+    <g fill="url(#g)">
+      <text x="70" y="140" font-size="120" font-family="Trebuchet MS, Arial, sans-serif" font-weight="700">777</text>
+    </g>
+  </g>
+  <text x="320" y="48" text-anchor="middle" font-size="28" fill="#ffd36a" font-family="Trebuchet MS, Arial, sans-serif">CASINO ROYALE</text>
+</svg>
