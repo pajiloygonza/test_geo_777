@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import React, { createContext, useCallback, useContext, useEffect, useMemo } from "react";
 import { dictionaries } from "./dictionaries";
 import { LangCode, TranslationKey } from "./i18n.types";
 import { useGeo } from "../geo/useGeo";
@@ -13,12 +13,20 @@ export type I18nContextValue = {
 const I18nContext = createContext<I18nContextValue | null>(null);
 
 export const I18nProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
-  const { config } = useGeo();
-  const [lang, setLang] = useState<LangCode>(config.defaultLang);
+  const { config, setGeo, allGeos } = useGeo();
+  const lang = config.defaultLang;
 
-  useEffect(() => {
-    setLang(config.defaultLang);
-  }, [config.defaultLang]);
+  const setLang = useCallback(
+    (next: LangCode) => {
+      if (next === config.defaultLang) return;
+
+      const entry = Object.values(allGeos).find((item) => item.defaultLang === next);
+      if (entry) {
+        setGeo(entry.code);
+      }
+    },
+    [allGeos, config.defaultLang, setGeo],
+  );
 
   useEffect(() => {
     try {
@@ -42,7 +50,7 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
       t,
       availableLangs: Object.keys(dictionaries) as LangCode[],
     };
-  }, [lang, t]);
+  }, [lang, setLang, t]);
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
 };

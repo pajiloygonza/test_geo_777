@@ -1,5 +1,12 @@
 import React, { useMemo, useState } from "react";
-import { Box, Button, IconButton, Snackbar, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  Snackbar,
+  Stack,
+  Typography,
+} from "@mui/material";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import DownloadIcon from "@mui/icons-material/Download";
 import TelegramIcon from "@mui/icons-material/Telegram";
@@ -23,22 +30,20 @@ const HeroRoot = styled.section`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  background-image: url("/img/background.png");
-  background-size: cover;
-  background-position: center -50px;
   overflow: hidden;
   padding: 0 30px;
 
-  &::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-  }
+  // &::before {
+  //   content: "";
+  //   position: absolute;
+  //   inset: 0;
+  // }
 `;
 
 const HeroContent = styled.div`
   position: relative;
   height: 100vh;
+  min-height: 100vh;
   z-index: 1;
   width: 100%;
   max-width: 880px;
@@ -46,11 +51,33 @@ const HeroContent = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    left: 58%;
+    transform: translateX(-50%);
+    width: 100vw;
+    height: 100vh;
+    background-image: url("/img/background.png");
+    background-size: cover;
+    background-position: center -50px;
+    background-repeat: no-repeat;
+    z-index: -1;
+    object-fit: cover;
+    scale: 1.12;
+  }
+  @media (max-width: 480px) {
+    &::before {
+      scale: 1.2;
+    }
+  }
 `;
 
 const Footer = styled.footer`
   width: 100%;
-  background: linear-gradient(90deg, #02011f 40%, #06225d 100%);
+  background: linear-gradient(90deg, #02011f 60%, #06225d 100%);
   padding: 60px 30px 60px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 `;
@@ -116,7 +143,7 @@ const DownloadApp = styled.div`
   align-items: center;
   justify-content: space-around;
   gap: 10px;
-  width: 350px;
+  max-width: 390px;
   height: 248px;
   padding: 20px;
   border-radius: 18px;
@@ -126,6 +153,8 @@ const DownloadApp = styled.div`
 
   @media (max-width: 1440px) {
     grid-area: card;
+    max-width: 292px;
+    height: auto;
   }
 `;
 
@@ -158,10 +187,25 @@ const DownloadButton = styled.button`
   gap: 10px;
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
   cursor: pointer;
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    filter 160ms ease;
 
   &:hover {
-    background: linear-gradient(90deg, #ffc25d, #ff8a3d);
+    filter: brightness(1.06);
+    transform: translateY(-1px);
+    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.45);
   }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+  }
+
+  @media(max-width: 480px) {
+    height: 50px;
+}
 `;
 
 const FooterCenter = styled.div`
@@ -174,15 +218,19 @@ const FooterCenter = styled.div`
   @media (max-width: 1440px) {
     grid-area: badges;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
-    gap: 48px;
+    gap: 70px;
     margin-left: 0px;
+    margin-top: 35px;
   }
 
   @media (max-width: 768px) {
     flex-direction: column;
     gap: 18px;
+  }
+  @media (max-width: 480px) {
+    margin-top: 15px;
   }
 `;
 
@@ -197,7 +245,7 @@ const BadgeBlock = styled.div`
     flex-direction: column;
     text-align: center;
     align-items: center;
-    max-width: 220px;
+    width: 220px;
   }
 `;
 
@@ -210,6 +258,7 @@ const SocialBlock = styled.div`
   @media (max-width: 1440px) {
     grid-area: social;
     align-items: center;
+    margin-top: 45px;
   }
 `;
 
@@ -228,6 +277,7 @@ const LanguageWrap = styled.div`
 
   @media (max-width: 1440px) {
     grid-area: lang;
+    margin-top: 25px;
   }
 `;
 
@@ -235,6 +285,7 @@ const SocialRow = styled.div`
   display: flex;
   align-items: center;
   gap: 14px;
+
 `;
 
 const SocialIconButton = styled(IconButton)`
@@ -303,24 +354,29 @@ export const HeroSection: React.FC = () => {
             src="/img/slots.png"
             alt={t("alt.slots")}
             sx={{
-              width: "min(80vw, 330px)",
+              width: "min(80vw, 300px)",
               height: "auto",
               filter: "drop-shadow(0 16px 32px rgba(0,0,0,0.4))",
             }}
           />
 
-          <Stack spacing={1.5} alignItems="center">
+          <Stack
+            spacing={1.5}
+            alignItems="center"
+            sx={{ width: "min(80vw, 292px)" }}
+          >
             <Button
               variant="contained"
               onClick={open}
               sx={(theme) => ({
                 fontSize: "16px",
                 py: 1.5,
-                width: "clamp(240px, 90vw, 350px)",
+                width: "100%",
                 background: `linear-gradient(90deg, ${theme.app.gradient.from}, ${theme.app.gradient.to})`,
                 color: "white",
                 textTransform: "uppercase",
                 boxShadow: "0 12px 28px rgba(0,0,0,0.35)",
+                "@media (max-width: 480px)": { width: "100%" },
                 "&:hover": {
                   background: `linear-gradient(90deg, ${theme.app.gradient.to}, ${theme.app.gradient.from})`,
                 },
@@ -355,7 +411,9 @@ export const HeroSection: React.FC = () => {
                 }}
               />
               <DownloadTitle>{t("footer.downloadTitle")}</DownloadTitle>
-              <DownloadSubtitle>{t("footer.downloadSubtitle")}</DownloadSubtitle>
+              <DownloadSubtitle>
+                {t("footer.downloadSubtitle")}
+              </DownloadSubtitle>
               <DownloadButton type="button">
                 <DownloadIcon />
                 {t("footer.downloadTitle")}
@@ -369,7 +427,9 @@ export const HeroSection: React.FC = () => {
                   alt={t("alt.age")}
                   sx={{ height: 56 }}
                 />
-                <Typography sx={{ fontSize: 14, color: "rgba(255,255,255,0.75)" }}>
+                <Typography
+                  sx={{ fontSize: 16, color: "rgba(255,255,255,0.75)" }}
+                >
                   {t("footer.ageRestrictionText")}
                 </Typography>
               </BadgeBlock>
@@ -379,9 +439,13 @@ export const HeroSection: React.FC = () => {
                   component="img"
                   src="/img/licence.png"
                   alt={t("alt.licence")}
-                  sx={{ height: 56 }}
+                  sx={{
+                    height: 56
+                  }}
                 />
-                <Typography sx={{ fontSize: 14, color: "rgba(255,255,255,0.75)" }}>
+                <Typography
+                  sx={{ fontSize: 16, color: "rgba(255,255,255,0.75)" }}
+                >
                   {t("footer.certificationText")}
                 </Typography>
               </BadgeBlock>
@@ -400,7 +464,9 @@ export const HeroSection: React.FC = () => {
             </LanguageWrap>
 
             <SocialBlock>
-              <Typography sx={{ fontSize: 14, color: "rgba(255,255,255,0.75)" }}>
+              <Typography
+                sx={{ fontSize: 16, color: "rgba(255,255,255,0.75)" }}
+              >
                 {t("footer.socialTitle")}
               </Typography>
               <SocialRow>
@@ -414,13 +480,19 @@ export const HeroSection: React.FC = () => {
                 >
                   <InstagramIcon sx={{ fontSize: 34 }} />
                 </SocialIconButton>
-                <SocialIconButton aria-label="Telegram" sx={{ background: "#3a8dff" }}>
+                <SocialIconButton
+                  aria-label="Telegram"
+                  sx={{ background: "#3a8dff" }}
+                >
                   <TelegramIcon sx={{ fontSize: 34 }} />
                 </SocialIconButton>
                 <SocialIconButton aria-label="X" sx={{ background: "#0b0b0b" }}>
                   <XIcon sx={{ fontSize: 34 }} />
                 </SocialIconButton>
-                <SocialIconButton aria-label="Email" sx={{ background: "#0b0b0b" }}>
+                <SocialIconButton
+                  aria-label="Email"
+                  sx={{ background: "#0b0b0b" }}
+                >
                   <MailOutlineIcon sx={{ fontSize: 34 }} />
                 </SocialIconButton>
               </SocialRow>
@@ -429,7 +501,12 @@ export const HeroSection: React.FC = () => {
         </FooterInner>
       </Footer>
 
-      <GameOverlay open={isOpen} onClose={close} url={gameUrl} closeLabel={t("hero.close")} />
+      <GameOverlay
+        open={isOpen}
+        onClose={close}
+        url={gameUrl}
+        closeLabel={t("hero.close")}
+      />
 
       <Snackbar
         open={snackbarOpen}
