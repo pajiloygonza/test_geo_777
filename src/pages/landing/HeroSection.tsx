@@ -66,7 +66,7 @@ const HeroContent = styled.div`
     background-repeat: no-repeat;
     z-index: -1;
     object-fit: cover;
-    scale: 1.12;
+    scale: 1.18;
   }
   @media (max-width: 480px) {
     &::before {
@@ -143,7 +143,7 @@ const DownloadApp = styled.div`
   align-items: center;
   justify-content: space-around;
   gap: 10px;
-  max-width: 390px;
+  width: 390px;
   height: 248px;
   padding: 20px;
   border-radius: 18px;
