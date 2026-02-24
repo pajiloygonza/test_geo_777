@@ -1,5 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = (env, argv) => {
   const isProd = argv.mode === "production";
@@ -34,19 +35,23 @@ module.exports = (env, argv) => {
             },
           },
         },
-        {
-          test: /\.css$/,
-          use: ["style-loader", "css-loader"],
-        },
-        {
-          test: /\.(png|jpe?g|gif|svg|webp)$/i,
-          type: "asset/resource",
-        },
+        { test: /\.css$/, use: ["style-loader", "css-loader"] },
+        { test: /\.(png|jpe?g|gif|svg|webp)$/i, type: "asset/resource" },
       ],
     },
     plugins: [
       new HtmlWebpackPlugin({
         template: path.resolve(__dirname, "public/index.html"),
+      }),
+
+      new CopyWebpackPlugin({
+        patterns: [
+          {
+            from: path.resolve(__dirname, "public/img"),
+            to: "img",
+            noErrorOnMissing: true,
+          },
+        ],
       }),
     ],
     devServer: {
